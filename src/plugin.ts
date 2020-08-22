@@ -43,4 +43,11 @@ export class FCM implements FCMProtocol {
   deleteInstance(): Promise<any> {
     return FCMPlugin.deleteInstance();
   }
+
+  /**
+   * init fcm using custom plugin
+   */
+  initConfig(): Promise<any> {
+    return FCMPlugin.initConfig();
+  }
 }

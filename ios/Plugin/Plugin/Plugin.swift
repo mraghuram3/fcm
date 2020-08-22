@@ -17,9 +17,9 @@ import FirebaseInstanceID
 public class FCM: CAPPlugin, MessagingDelegate {
     
     public override func load() {
-        if (FirebaseApp.app() == nil) {
-          FirebaseApp.configure();
-        }
+        // if (FirebaseApp.app() == nil) {
+        //   FirebaseApp.configure();
+        // }
         Messaging.messaging().delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterWithToken(notification:)), name: Notification.Name(CAPNotifications.DidRegisterForRemoteNotificationsWithDeviceToken.name()), object: nil)
     }
@@ -80,4 +80,18 @@ public class FCM: CAPPlugin, MessagingDelegate {
             }
         }
     }
+
+    @objc func initConfig(_ call: CAPPluginCall) {
+        print("inside init congif called")
+        var configFilepath: String?
+        configFilepath = Bundle.main.path(forResource: "GoogleService-Info-dev", ofType: "plist")
+        guard let config = FirebaseOptions(contentsOfFile: configFilepath!) else {
+            assert(false, "Unable to load Firebase config file")
+            return
+        }
+        if (FirebaseApp.app() == nil) {
+            FirebaseApp.configure(options: config);
+        }
+    }
+
 }

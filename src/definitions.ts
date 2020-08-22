@@ -9,4 +9,5 @@ export interface FCMProtocol {
   unsubscribeFrom(options: { topic: string }): Promise<{ message: string }>;
   getToken(): Promise<{ token: string }>;
   deleteInstance(): Promise<boolean>;
+  initConfig(): Promise<boolean>;
 }
