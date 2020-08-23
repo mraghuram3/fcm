@@ -82,9 +82,16 @@ public class FCM: CAPPlugin, MessagingDelegate {
     }
 
     @objc func initConfig(_ call: CAPPluginCall) {
-        print("inside init congif called")
+        let env = call.getString("env") ?? ""
         var configFilepath: String?
-        configFilepath = Bundle.main.path(forResource: "GoogleService-Info-dev", ofType: "plist")
+            switch env {
+            case "eu":
+                configFilepath = Bundle.main.path(forResource: "GoogleService-Info-EU", ofType: "plist")
+            case "dev":
+                configFilepath = Bundle.main.path(forResource: "GoogleService-Info-Dev", ofType: "plist")
+            default:
+                configFilepath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")
+            }
         guard let config = FirebaseOptions(contentsOfFile: configFilepath!) else {
             assert(false, "Unable to load Firebase config file")
             return
